@@ -88,6 +88,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     public void setDishSet(List<Dish> dishSet)
     {
+        mDishSet.clear();
         for (Dish dish : dishSet)
             mDishSet.put(dish.id, dish);
         notifyDataSetChanged();

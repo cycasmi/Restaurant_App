@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import com.restaurant.app.adapters.DishListAdapter;
 import com.restaurant.app.controllers.PreferenceController;
 import com.restaurant.app.controllers.RestController;
+import com.restaurant.app.models.Order;
+
+import java.util.List;
 
 public class DishList extends AppCompatActivity
 {
@@ -41,7 +45,8 @@ public class DishList extends AppCompatActivity
         mPrefs = new PreferenceController(this);
         initSwipeRefresh();
         initRecyclerView();
-        loadData();
+        loadDishList();
+        loadOrderList();
     }
 
     @Override
@@ -54,14 +59,22 @@ public class DishList extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        Intent intent = new Intent(this, OrderList.class);
-        startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Note");
+        builder.setMessage(
+                "By confirming your order, you can add more dishes (desserts, drinks) but not cancel.");
+        builder.setPositiveButton("Confirm", (dialogInterface, i) -> {
+            Intent intent = new Intent(this, OrderList.class);
+            startActivity(intent);
+        });
+        builder.setNegativeButton("Return", null);
+        builder.create().show();
         return true;
     }
 
     private void initSwipeRefresh()
     {
-        mSwipeRefresh.setOnRefreshListener(this::loadData);
+        mSwipeRefresh.setOnRefreshListener(this::loadOrderList);
     }
 
     private void initRecyclerView()
@@ -83,7 +96,12 @@ public class DishList extends AppCompatActivity
             addDish(dishId);
         };
 
-        mAdapter = new DishListAdapter(onClickItem, onClickAdd);
+        View.OnClickListener onClickDelete = view -> {
+            int dishId = (int) view.getTag();
+            deleteDish(dishId);
+        };
+
+        mAdapter = new DishListAdapter(onClickItem, onClickAdd, onClickDelete);
         int numColumns = 2;
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numColumns));
         mRecyclerView.setAdapter(mAdapter);
@@ -92,18 +110,33 @@ public class DishList extends AppCompatActivity
     private void addDish(int dishId)
     {
         int sessionId = mPrefs.getSessionId();
-        mRest.saveOrder(sessionId, dishId, (result, status) -> {
+        mRest.saveOrder(sessionId, dishId, "", (result, status) -> {
             Toast.makeText(this, "Dish added", Toast.LENGTH_SHORT).show();
+            loadOrderList();
         });
     }
 
-    private void loadData()
+    private void deleteDish(int dishId)
     {
-        int sessionId = mPrefs.getSessionId();
+        List<Order> orders = mAdapter.getDishOrders(dishId);
+        mRest.deleteOrder(orders.get(0), (result, status) -> loadOrderList());
+    }
+
+    private void loadDishList()
+    {
         mRest.getDishList((result, status) -> {
             mSwipeRefresh.setRefreshing(false);
             mAdapter.setDataSet(result);
         });
-        mRest.getOrderList(sessionId, (result, status) -> mAdapter.setOrderSet(result));
+    }
+
+    private void loadOrderList()
+    {
+        int    sessionId   = mPrefs.getSessionId();
+        String orderStatus = "ordering";
+        mRest.getOrderList(sessionId, orderStatus, (result, status) -> {
+            mAdapter.setOrderSet(result);
+            mSwipeRefresh.setRefreshing(false);
+        });
     }
 }

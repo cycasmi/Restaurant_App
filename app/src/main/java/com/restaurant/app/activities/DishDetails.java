@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.text.Html;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class DishDetails extends AppCompatActivity
     private TextView        mPrice;
     private TextView        mDiscount;
     private TextView        mDescription;
+    private EditText        mComments;
     private AppCompatButton mAdd;
 
     private RestController       mRest;
@@ -43,6 +45,7 @@ public class DishDetails extends AppCompatActivity
         mPrice = findViewById(R.id.dish_details_price);
         mDiscount = findViewById(R.id.dish_details_discount);
         mDescription = findViewById(R.id.dish_details_description);
+        mComments = findViewById(R.id.dish_details_comments);
         mAdd = findViewById(R.id.dish_details_add);
 
         mRest = new RestController(this);
@@ -75,10 +78,11 @@ public class DishDetails extends AppCompatActivity
 
     private void addDish()
     {
-        int sessionId = mPrefs.getSessionId();
-        int dishId    = getIntent().getIntExtra(ARGS_DISH_ID, 0);
-        mRest.saveOrder(sessionId, dishId, (result, status) -> {
-            Intent intent = new Intent(this, OrderList.class);
+        int    sessionId = mPrefs.getSessionId();
+        int    dishId    = getIntent().getIntExtra(ARGS_DISH_ID, 0);
+        String comments  = mComments.getText().toString();
+        mRest.saveOrder(sessionId, dishId, comments, (result, status) -> {
+            Intent intent = new Intent(this, DishList.class);
             Toast.makeText(this, "Dish added", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });

@@ -14,6 +14,7 @@ public class OrderMapper extends Mapper<Order>
                 json.getInt("order_id"), //
                 json.getInt("session_id"), //
                 json.getInt("dish_id"), //
+                json.getString("comments"), //
                 json.getString("status"));
     }
 }

@@ -26,16 +26,19 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.ViewHo
 
     private View.OnClickListener mOnClickItem;
     private View.OnClickListener mOnClickAdd;
+    private View.OnClickListener mOnClickRemove;
 
-    private List<Dish>            mDataSet;
-    private Map<Integer, Integer> mOrderCount;
+
+    private List<Dish>                mDataSet;
+    private Map<Integer, List<Order>> mOrderCount;
 
 
     public DishListAdapter(View.OnClickListener onClickItem,
-            View.OnClickListener onClickAdd)
+            View.OnClickListener onClickAdd, View.OnClickListener onClickRemove)
     {
         mOnClickItem = onClickItem;
         mOnClickAdd = onClickAdd;
+        mOnClickRemove = onClickRemove;
         mDataSet = new ArrayList<>();
         mOrderCount = new HashMap<>();
     }
@@ -50,8 +53,9 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position)
     {
-        Dish data  = mDataSet.get(position);
-        int  count = mOrderCount.containsKey(data.id) ? mOrderCount.get(data.id) : 0;
+        Dish data = mDataSet.get(position);
+        int count =
+                mOrderCount.containsKey(data.id) ? mOrderCount.get(data.id).size() : 0;
 
         holder.title.setText(data.name);
         holder.price.setText("$" + data.cost);
@@ -73,9 +77,11 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.ViewHo
 
         holder.container.setTag(data.id);
         holder.add.setTag(data.id);
+        holder.remove.setTag(data.id);
 
         holder.container.setOnClickListener(mOnClickItem);
         holder.add.setOnClickListener(mOnClickAdd);
+        holder.remove.setOnClickListener(mOnClickRemove);
     }
 
     @Override
@@ -92,11 +98,18 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.ViewHo
 
     public void setOrderSet(List<Order> orderSet)
     {
+        mOrderCount.clear();
         for (Order order : orderSet) {
-            if (!mOrderCount.containsKey(order.dishId)) mOrderCount.put(order.dishId, 0);
-            mOrderCount.put(order.dishId, mOrderCount.get(order.dishId) + 1);
+            if (!mOrderCount.containsKey(order.dishId))
+                mOrderCount.put(order.dishId, new ArrayList<>());
+            mOrderCount.get(order.dishId).add(order);
         }
         notifyDataSetChanged();
+    }
+
+    public List<Order> getDishOrders(int dishId)
+    {
+        return mOrderCount.get(dishId);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder

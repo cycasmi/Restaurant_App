@@ -49,7 +49,8 @@ public class OrderList extends AppCompatActivity
         initSwipeRefresh();
         initRecyclerView();
         initEditButton();
-        loadData();
+        loadDishList();
+        loadOrderList();
     }
 
     @Override
@@ -92,7 +93,7 @@ public class OrderList extends AppCompatActivity
 
     private void initSwipeRefresh()
     {
-        mSwipeRefresh.setOnRefreshListener(this::loadData);
+        mSwipeRefresh.setOnRefreshListener(this::loadOrderList);
     }
 
     private void initRecyclerView()
@@ -102,14 +103,18 @@ public class OrderList extends AppCompatActivity
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void loadData()
+    private void loadDishList()
+    {
+        mRest.getDishList((result, status) -> mAdapter.setDishSet(result));
+    }
+
+    private void loadOrderList()
     {
         int sessionId = mPrefs.getSessionId();
         mRest.getOrderList(sessionId, (result, status) -> {
             mSwipeRefresh.setRefreshing(false);
             mAdapter.setDataSet(result);
         });
-        mRest.getDishList((result, status) -> mAdapter.setDishSet(result));
     }
 
     private void payBill(AppCompatButton button, View progress)

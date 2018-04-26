@@ -3,6 +3,6 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/dish_list_menu"
-        android:title="Order"
+        android:title="Confirm"
         app:showAsAction="always"/>
 </menu>

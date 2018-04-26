@@ -52,18 +52,31 @@ public class RestController
         executor.getList(path, params, mapper, callback);
     }
 
-    public void saveOrder(int sessionId, int dishId, Callback<Integer> callback)
+    public void getOrderList(int sessionId, String status, Callback<List<Order>> callback)
+    {
+        RestExecutor<Order> executor = new RestExecutor<>(mContext);
+        String              path     = "/order/list/";
+        Map<String, String> params   = new HashMap<>();
+        params.put("session_id", sessionId + "");
+        params.put("status", status);
+        OrderMapper mapper = new OrderMapper();
+        executor.getList(path, params, mapper, callback);
+    }
+
+    public void saveOrder(int sessionId, int dishId, String comments,
+            Callback<Integer> callback)
     {
         RestExecutor<Dish>  executor = new RestExecutor<>(mContext);
         String              path     = "/order/";
         Map<String, String> params   = new HashMap<>();
         params.put("session_id", sessionId + "");
         params.put("dish_id", dishId + "");
+        params.put("comments", comments);
         params.put("status", "ordering");
         executor.post(path, params, "order_id", callback);
     }
 
-    public void deleteOrder(int orderId, Callback<Void> callback)
+    public void deleteOrder(Order orderId, Callback<Void> callback)
     {
         RestExecutor<Dish>  executor = new RestExecutor<>(mContext);
         String              path     = "/order/";
