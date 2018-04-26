@@ -20,7 +20,8 @@ import java.util.Map;
 public class RestExecutor<T>
 {
 
-    private final String SERVER = "http://192.168.0.4:3000/api";
+    private final String SERVER =
+            "http://restaurantapi-env.hncdgypn39.us-west-2.elasticbeanstalk.com/api";
 
     private Context mContext;
 
@@ -105,19 +106,19 @@ public class RestExecutor<T>
         queue.add(request);
     }
 
-    public void delete(String path, Map<String, String> params, Callback<T> callback)
+    public void delete(String path, Map<String, String> params, Callback<Void> callback)
     {
         request(Request.Method.DELETE, path, params, callback);
     }
 
 
-    public void put(String path, Map<String, String> params, Callback<T> callback)
+    public void put(String path, Map<String, String> params, Callback<Void> callback)
     {
-        request(Request.Method.DELETE, path, params, callback);
+        request(Request.Method.PUT, path, params, callback);
     }
 
     private void request(int type, String path, Map<String, String> params,
-            Callback<T> callback)
+            Callback<Void> callback)
     {
         RequestQueue queue = Volley.newRequestQueue(mContext);
         StringRequest request = new StringRequest(type, SERVER + path, response -> {

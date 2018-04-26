@@ -1,26 +1,31 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f0f0"
     tools:context=".OrderList">
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/order_list_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/order_list_add_button"
+        android:id="@+id/order_list_edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="18dp"
-        android:src="@drawable/ic_add"/>
+        app:srcCompat="@drawable/ic_add"/>
+
 </RelativeLayout>

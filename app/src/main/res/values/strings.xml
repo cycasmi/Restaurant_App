@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RestApp</string>
-    <string name="customize_your_menu">Customize your menu</string>
-    <string name="dish_list">Dish list</string>
-    <string name="dish_details">Dish details</string>
+    <string name="login">Login</string>
+    <string name="menu">Menu</string>
+    <string name="order">Order</string>
+    <string name="details">Details</string>
 </resources>

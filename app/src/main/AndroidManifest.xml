@@ -11,18 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name="com.restaurant.app.activities.OrderList"
-            android:label="@string/dish_list">
+            android:name="com.restaurant.app.activities.Login"
+            android:label="@string/login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+
+        <activity
+            android:name="com.restaurant.app.activities.OrderList"
+            android:label="@string/order"/>
+
         <activity
             android:name="com.restaurant.app.activities.DishDetails"
-            android:label="@string/dish_details">
+            android:label="@string/details">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -32,14 +38,7 @@
 
         <activity
             android:name="com.restaurant.app.activities.DishList"
-            android:label="@string/customize_your_menu">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.restaurant.app.activities.OrderList"/>
-
-        </activity>
-
+            android:label="@string/menu"/>
 
     </application>
 

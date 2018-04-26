@@ -1,60 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    android:id="@+id/dish_item_container"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="4dp"
-    card_view:cardCornerRadius="4dp">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/dish_item_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/dish_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/dish_item_image"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_marginRight="10dp"
-            android:scaleType="center"/>
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/dish_item_add"
-            android:layout_width="48dp"
-            android:layout_height="52dp"
-            android:layout_alignParentRight="true"
-            android:backgroundTint="@color/colorAccent"
-            android:src="@drawable/ic_add"/>
+        android:layout_gravity="center"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/dish_item_add"
-            android:layout_toRightOf="@id/dish_item_image"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/dish_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#444"
-                android:textSize="16dp"/>
+            <ImageView
+                android:id="@+id/dish_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:scaleType="center"/>
 
-            <TextView
-                android:id="@+id/dish_item_description"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#777"
-                android:textSize="14dp"/>
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dish_item_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="#444"
+                        android:textSize="16dp"/>
+
+                    <ImageView
+                        android:id="@+id/dish_item_original"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="Original recipient"
+                        android:tint="@color/turquoise"
+                        app:srcCompat="@drawable/ic_original"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/dish_item_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:textColor="#707070"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/dish_item_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#099441"
+                        android:textSize="14dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/dish_item_remove"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#fff"
+                    android:text="-"
+                    android:textColor="#777"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/dish_item_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/dish_item_remove"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Add"
+                    android:textColor="#fff"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
-</android.support.v7.widget.CardView>
+</RelativeLayout>
